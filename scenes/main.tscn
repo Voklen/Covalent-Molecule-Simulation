@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dk2rsllftcxx"]
+
+[ext_resource type="PackedScene" uid="uid://dca2lcjahkqbp" path="res://scenes/molecule.tscn" id="1_07aau"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Molecule" parent="." instance=ExtResource("1_07aau")]
+position = Vector2(210, 112)
+rotation = 3.69661
+scale = Vector2(0.2, 0.2)
+
+[node name="Molecule2" parent="." instance=ExtResource("1_07aau")]
+position = Vector2(408, 276)
+scale = Vector2(0.2, 0.2)

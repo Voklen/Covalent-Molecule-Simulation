@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://dca2lcjahkqbp"]
+
+[ext_resource type="Script" path="res://src/molecule.gd" id="1_136pt"]
+
+[node name="Molecule" type="Sprite2D"]
+script = ExtResource("1_136pt")
+
+[node name="Bond" type="Polygon2D" parent="."]
+position = Vector2(100, 75)
+color = Color(0.211765, 0.0784314, 0.0980392, 1)
+polygon = PackedVector2Array(0, 0, 500, 0, 500, 50, 0, 50)
+
+[node name="Negative" type="Polygon2D" parent="."]
+position = Vector2(100, 100)
+color = Color(0.290196, 0.678431, 1, 1)
+polygon = PackedVector2Array(0, -100, -100, 0, 0, 100, 100, 0)
+
+[node name="Positive" type="Polygon2D" parent="."]
+position = Vector2(600, 100)
+color = Color(1, 0.00784314, 0.478431, 1)
+polygon = PackedVector2Array(0, -100, -100, 0, 0, 100, 100, 0)
