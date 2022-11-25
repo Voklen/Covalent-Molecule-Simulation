@@ -15,37 +15,42 @@ func get_positive():
 func _process(delta):
 	var global_force_on_negative = Vector2()
 	var global_force_on_positive = Vector2()
+	var displacement
+	var force
+	
 	var other_nodes = get_parent().get_children()
 	for node in other_nodes:
-		if node != self:
-#			Negative repulsion
-			var neg_neg_displacement = get_negative() - node.get_negative()
-			var neg_neg_force = displacement_to_force(neg_neg_displacement)
-			global_force_on_negative += neg_neg_force
-#			Negative attraction
-			var neg_pos_displacement = get_negative() - node.get_positive()
-			var neg_pos_force = displacement_to_force(neg_pos_displacement)
-			global_force_on_negative -= neg_pos_force
-#			Positive attraction
-			var pos_pos_displacement = get_positive() - node.get_positive()
-			var pos_pos_force = displacement_to_force(pos_pos_displacement)
-			global_force_on_positive += pos_pos_force
-#			Positive attraction
-			var pos_neg_displacement = get_positive() - node.get_negative()
-			var pos_neg_force = displacement_to_force(pos_neg_displacement)
-			global_force_on_positive -= pos_neg_force
-	global_force_on_negative *= delta * speed
-	var local_combined_position = get_node("Negative").position + global_force_on_negative
-	var new_rotation = get_node("Negative").position.angle_to(local_combined_position)
-	rotate(new_rotation)
-	position += get_node("Negative").position.move_toward(local_combined_position, 0.5) - get_node("Negative").position
+		if node == self:
+			continue
+		# Negative repulsion
+		displacement = get_negative() - node.get_negative()
+		force = displacement_to_force(displacement)
+		global_force_on_negative += force
+		# Negative attraction
+		displacement = get_negative() - node.get_positive()
+		force = displacement_to_force(displacement)
+		global_force_on_negative -= force
+		# Positive repulsion
+		displacement = get_positive() - node.get_positive()
+		force = displacement_to_force(displacement)
+		global_force_on_positive += force
+		# Positive attraction
+		displacement = get_positive() - node.get_negative()
+		force = displacement_to_force(displacement)
+		global_force_on_positive -= force
 	
+	global_force_on_negative *= delta * speed
 	global_force_on_positive *= delta * speed
-	local_combined_position = get_node("Positive").position + global_force_on_positive
-	new_rotation = get_node("Positive").position.angle_to(local_combined_position)
-	rotate(new_rotation)
-	position += get_node("Positive").position.move_toward(local_combined_position, 0.5) - get_node("Positive").position
+	
+	apply_force(global_force_on_negative, get_node("Negative").position)
+	apply_force(global_force_on_positive, get_node("Positive").position)
 
 
 func displacement_to_force(displacement: Vector2):
 	return displacement.normalized()
+
+func apply_force(global_force: Vector2, local_position: Vector2):
+	var local_combined_position = local_position + global_force
+	var new_rotation = local_position.angle_to(local_combined_position)
+	rotate(new_rotation)
+	position += local_position.move_toward(local_combined_position, 0.5) - local_position
