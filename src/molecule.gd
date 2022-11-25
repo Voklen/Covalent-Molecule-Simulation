@@ -1,6 +1,7 @@
 extends Node2D
 
-var speed = 50
+const speed = 50
+const dropoff = 5
 
 func _ready():
 	pass
@@ -10,8 +11,7 @@ func get_negative():
 
 func get_positive():
 	return to_global(get_node("Positive").position)
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta):
 	var global_force_on_negative = Vector2()
 	var global_force_on_positive = Vector2()
@@ -47,7 +47,7 @@ func _process(delta):
 
 
 func displacement_to_force(displacement: Vector2):
-	return displacement.normalized()
+	return displacement.normalized() * dropoff/displacement.length()
 
 func apply_force(global_force: Vector2, local_position: Vector2):
 	var local_combined_position = local_position + global_force
