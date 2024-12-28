@@ -6,7 +6,6 @@
 [node name="Main" type="Node2D"]
 
 [node name="Main 2D Camera" type="Camera2D" parent="."]
-current = true
 script = ExtResource("2_lfbno")
 
 [node name="Molecules" type="Node2D" parent="."]
